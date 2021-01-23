@@ -8,7 +8,12 @@ function draw_workspace(workspace)
 
 % plot obstacles
 for idx = 1:length(workspace.obstacles)
-    plot(workspace.obstacles(idx),'FaceColor','k'); hold on;
+    
+    if idx == length(workspace.obstacles)
+        plot(workspace.obstacles(idx),'FaceColor','k','FaceAlpha',0.2); hold on;
+    else
+        plot(workspace.obstacles(idx),'FaceColor','k','FaceAlpha',0.5); hold on;
+    end
 end
 
 % plot targets

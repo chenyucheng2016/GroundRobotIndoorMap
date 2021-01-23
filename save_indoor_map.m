@@ -2,7 +2,7 @@
 % Dongheng Jing
 % 1/29/2020
 clear
-% close all
+close all
 clc
 
 %% unmovable obstacles
@@ -22,12 +22,12 @@ hex = @(d) d*[[1/2;0],[1/4;sqrt(3)/4],[-1/4;sqrt(3)/4],[-1/2;0],[-1/4;-sqrt(3)/4
 rec = @(w,h) [[1/2*w;1/2*h],[-1/2*w;1/2*h],[-1/2*w;-1/2*h],[1/2*w;-1/2*h]];
 r = @(theta) [cos(theta), -sin(theta); sin(theta), cos(theta)];
 % walls
-B10 = (rec(52,5) + [65;207.5]) *0.0254;
+B10 = (rec(52,5) + [63;207.5]) *0.0254;
 B11 = (r(pi/2)*rec(52,5) + [156;272]) *0.0254;
-B12 = (rec(75,4) + [213;149]) *0.0254;
+B12 = ((rec(73,4) + [213;149]) + [-0.5;0]) *0.0254;
 B13 = (r(pi/2)*rec(73,3.25) + [124;36.5]) *0.0254;
 % obstacles
-B14 = (r(pi/2)*rec(20,22) + [270;45]) *0.0254;
+B14 = ((r(pi/2)*rec(20,22) + [270;45])+[0;4]) *0.0254;
 B15 = (rec(18,18) + [185;138]) *0.0254;
 B16 = (rec(18,18) + [204;199]) *0.0254;
 B17 = (rec(18,18) + [51;20]) *0.0254;
@@ -71,21 +71,26 @@ save('workspace_indoor.mat','workspace')
 figure(1)
 hold on
 
-scatter([230,128]*0.0254,[242,180]*0.0254,'rs') % wooden box
-scatter([134,85]*0.0254,[265,226]*0.0254,'ks') % card box
-scatter(214*0.0254,100*0.0254,'o','MarkerEdgeColor',[0.5,0.25,0.125]) % basketball
-scatter(204*0.0254,265*0.0254,'go') % watermelon
-scatter(96*0.0254,20*0.0254,'kd') % book
-scatter(40*0.0254,64.5*0.0254,'k+') % monitor
-scatter([48,92]*0.0254,[167,267]*0.0254,'g*') % apple
-scatter(87*0.0254,200*0.0254,'*','MarkerEdgeColor',[1,0.5,0]) % orange
+scatter([230,128]*0.0254,[242,180]*0.0254,200,'rs','LineWidth',2) % wooden box
+scatter([134,85]*0.0254,[265,226]*0.0254,200,'ks','LineWidth',2) % card box
+scatter(214*0.0254,100*0.0254,200,'o','MarkerEdgeColor',[0.5,0.25,0.125],'LineWidth',2) % basketball
+scatter(204*0.0254,265*0.0254,200,'go','LineWidth',2) % watermelon
+scatter(96*0.0254,20*0.0254,200,'kd','LineWidth',2) % book
+scatter(40*0.0254,64.5*0.0254,200,'k+','LineWidth',2) % monitor
+scatter([48,92]*0.0254,[167,267]*0.0254,200,'g*','LineWidth',2) % apple
+scatter(87*0.0254,200*0.0254,200,'*','MarkerEdgeColor',[1,0.5,0],'LineWidth',2) % orange
 
 draw_workspace(workspace)
 axis equal
 axis(workspace.limits)
 
-legend('wooden box','card box','basketball','watermelon',...
-       'book','monitor','apple','orange','fontsize',16)
-   
-xlabel('m','fontsize',14)
-ylabel('m','fontsize',14)
+[hleg, hobj, hout, mout]  = legend('Wooden box','Cardboard box','Basketball','Watermelon',...
+       'Book','Computer','Apple','Orange','fontsize',16);
+for i = 9:16
+    hobj(i).Children.MarkerSize = 18;
+    hobj(i).Children.LineWidth = 1.5;
+end
+text(4.8,-1.2','Door','FontSize',15,'Color','red')
+xlabel('Meters','fontsize',14)
+ylabel('Meters','fontsize',14)
+set(gca,'FontSize',15,'FontWeight','bold')
